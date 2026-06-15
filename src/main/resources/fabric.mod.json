@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "id": "cactus-clickgui",
+  "version": "${version}",
+  "name": "Cactus-Clickgui",
+  "description": "A Cactus module that switches the module list to a custom ClickGUI theme.",
+  "authors": [],
+  "contact": {},
+  "license": "All-Rights-Reserved",
+  "environment": "client",
+  "entrypoints": {
+    "cactus": [
+      "xyz.robotig.cactusclickgui.module.impl.CactusClickguiAddon"
+    ],
+    "main": [
+      "xyz.robotig.cactusclickgui.CactusClickgui"
+    ]
+  },
+  "mixins": [
+    "cactus-clickgui.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric-api": "*",
+    "cactus": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}
