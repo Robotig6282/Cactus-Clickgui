@@ -18,8 +18,8 @@ When the `Clickgui` module is enabled, opening the Cactus module list uses the c
 
 ## Requirements
 
-- Minecraft 1.21.11
-- Fabric Loader 0.19.2
+- Minecraft 26.1.x
+- Fabric Loader 0.19.3
 - Fabric API
-- Cactus
+- Cactus 0.13+
 

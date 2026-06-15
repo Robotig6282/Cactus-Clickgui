@@ -1,6 +1,6 @@
 package xyz.robotig.cactusclickgui.ui;
 
-import net.minecraft.client.resource.language.I18n;
+import net.minecraft.client.resources.language.I18n;
 
 public final class UiNameUtil {
     private static final String MODULE_PREFIX = "modules.";
@@ -38,7 +38,7 @@ public final class UiNameUtil {
     }
 
     private static String translate(String key) {
-        String translated = I18n.translate(key);
+        String translated = I18n.get(key);
         return translated.equals(key) ? "" : translated;
     }
 

@@ -4,12 +4,12 @@ import com.dwarslooper.cactus.client.feature.module.Category;
 import com.dwarslooper.cactus.client.feature.module.Module;
 import com.dwarslooper.cactus.client.feature.module.ModuleManager;
 import com.dwarslooper.cactus.client.gui.screen.impl.ModuleOptionsScreen;
-import net.minecraft.client.gui.Click;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.client.input.KeyInput;
-import net.minecraft.text.Text;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.input.KeyEvent;
+import net.minecraft.client.input.MouseButtonEvent;
+import net.minecraft.network.chat.Component;
 import org.lwjgl.glfw.GLFW;
 import xyz.robotig.cactusclickgui.Config;
 import xyz.robotig.cactusclickgui.ui.components.Window;
@@ -24,26 +24,26 @@ public class ClickGuiScreen extends Screen {
     private static final String FAVORITES_CATEGORY_ID = "favorites";
 
     private final List<Window> windows = new ArrayList<>();
-    private TextFieldWidget searchWidget;
+    private EditBox searchWidget;
     private String searchQuery = "";
 
     public ClickGuiScreen() {
-        super(Text.literal("Cactus-Clickgui"));
+        super(Component.literal("Cactus-Clickgui"));
     }
 
     @Override
     protected void init() {
         super.init();
         int searchWidth = Math.min(220, Math.max(120, width - 20));
-        searchWidget = new TextFieldWidget(textRenderer, 10, 10, searchWidth, 16, Text.literal("Search"));
+        searchWidget = new EditBox(font, 10, 10, searchWidth, 16, Component.literal("Search"));
         searchWidget.setMaxLength(64);
-        searchWidget.setPlaceholder(Text.literal("Search modules..."));
-        searchWidget.setText(searchQuery);
-        searchWidget.setChangedListener(value -> {
+        searchWidget.setHint(Component.literal("Search modules..."));
+        searchWidget.setValue(searchQuery);
+        searchWidget.setResponder(value -> {
             searchQuery = value;
             rebuildWindows();
         });
-        addDrawableChild(searchWidget);
+        addRenderableWidget(searchWidget);
         setInitialFocus(searchWidget);
         rebuildWindows();
     }
@@ -94,18 +94,18 @@ public class ClickGuiScreen extends Screen {
     }
 
     @Override
-    public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-        renderInGameBackground(context);
+    public void extractRenderState(GuiGraphicsExtractor context, int mouseX, int mouseY, float delta) {
+        extractTransparentBackground(context);
         for (Window window : windows) {
             window.render(context, mouseX, mouseY);
         }
         if (searchWidget != null) {
-            searchWidget.render(context, mouseX, mouseY, delta);
+            searchWidget.extractRenderState(context, mouseX, mouseY, delta);
         }
     }
 
     @Override
-    public boolean keyPressed(KeyInput keyInput) {
+    public boolean keyPressed(KeyEvent keyInput) {
         if (searchWidget != null) {
             if ((keyInput.modifiers() & GLFW.GLFW_MOD_CONTROL) != 0 && keyInput.key() == GLFW.GLFW_KEY_F) {
                 searchWidget.setFocused(true);
@@ -120,10 +120,10 @@ public class ClickGuiScreen extends Screen {
     }
 
     @Override
-    public boolean mouseClicked(Click click, boolean bool) {
+    public boolean mouseClicked(MouseButtonEvent click, boolean bool) {
         double mouseX = click.x();
         double mouseY = click.y();
-        int button = click.buttonInfo().button();
+        int button = click.button();
 
         for (int i = windows.size() - 1; i >= 0; i--) {
             Window window = windows.get(i);
@@ -136,7 +136,7 @@ public class ClickGuiScreen extends Screen {
                     return true;
                 }
                 if (button == 1) {
-                    client.setScreen(new ModuleOptionsScreen(clicked, this));
+                    minecraft.setScreen(new ModuleOptionsScreen(clicked, this));
                 }
                 return true;
             }
@@ -150,15 +150,15 @@ public class ClickGuiScreen extends Screen {
     }
 
     @Override
-    public boolean mouseReleased(Click click) {
+    public boolean mouseReleased(MouseButtonEvent click) {
         for (Window window : windows) {
-            window.mouseReleased(click.x(), click.y(), click.buttonInfo().button());
+            window.mouseReleased(click.x(), click.y(), click.button());
         }
         return super.mouseReleased(click);
     }
 
     @Override
-    public boolean mouseDragged(Click click, double dx, double dy) {
+    public boolean mouseDragged(MouseButtonEvent click, double dx, double dy) {
         for (Window window : windows) {
             window.mouseDragged((int) click.x(), (int) click.y());
         }
@@ -166,7 +166,7 @@ public class ClickGuiScreen extends Screen {
     }
 
     @Override
-    public boolean shouldPause() {
+    public boolean isPauseScreen() {
         return false;
     }
 

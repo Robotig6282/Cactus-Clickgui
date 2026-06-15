@@ -7,7 +7,7 @@ import com.dwarslooper.cactus.client.systems.config.settings.impl.ColorSetting;
 import com.dwarslooper.cactus.client.systems.config.settings.impl.ColorSetting.ColorValue;
 import com.dwarslooper.cactus.client.systems.key.KeyBind;
 import com.google.gson.JsonObject;
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
 import org.lwjgl.glfw.GLFW;
 import xyz.robotig.cactusclickgui.ui.ClickGuiScreen;
 
@@ -61,8 +61,8 @@ public class ClickGuiModule extends Module {
         if (restoringFromConfig) {
             return;
         }
-        MinecraftClient client = MinecraftClient.getInstance();
-        if (client != null && !(client.currentScreen instanceof ClickGuiScreen)) {
+        Minecraft client = Minecraft.getInstance();
+        if (client != null && !(client.screen instanceof ClickGuiScreen)) {
             client.setScreen(new ClickGuiScreen());
         }
     }
@@ -72,8 +72,8 @@ public class ClickGuiModule extends Module {
         if (restoringFromConfig) {
             return;
         }
-        MinecraftClient client = MinecraftClient.getInstance();
-        if (client != null && client.currentScreen instanceof ClickGuiScreen) {
+        Minecraft client = Minecraft.getInstance();
+        if (client != null && client.screen instanceof ClickGuiScreen) {
             client.setScreen(new ModuleListScreen());
         }
     }

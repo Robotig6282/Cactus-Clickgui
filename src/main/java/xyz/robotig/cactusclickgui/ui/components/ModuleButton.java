@@ -1,8 +1,8 @@
 package xyz.robotig.cactusclickgui.ui.components;
 
 import com.dwarslooper.cactus.client.feature.module.Module;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import xyz.robotig.cactusclickgui.module.impl.ClickGuiModule;
 import xyz.robotig.cactusclickgui.ui.UiNameUtil;
 
@@ -13,7 +13,7 @@ public class ModuleButton {
         this.module = module;
     }
 
-    public void render(DrawContext context, int x, int y, int width, int mouseX, int mouseY) {
+    public void render(GuiGraphicsExtractor context, int x, int y, int width, int mouseX, int mouseY) {
         boolean hovered = mouseX >= x && mouseX <= x + width && mouseY >= y && mouseY <= y + 14;
 
         int bgColor = module.active() ? 0x80282828 : 0x80181818;
@@ -27,14 +27,14 @@ public class ModuleButton {
             context.fill(x, y, x + 2, y + 14, ClickGuiModule.getAccentColor());
         }
 
-        MinecraftClient client = MinecraftClient.getInstance();
+        Minecraft client = Minecraft.getInstance();
         String label = UiNameUtil.moduleName(module.getDisplayName());
-        context.drawText(client.textRenderer, label, x + 5, y + 3, 0xFFFFFFFF, true);
+        context.text(client.font, label, x + 5, y + 3, 0xFFFFFFFF, true);
         if (module.isFavorite()) {
-            int starX = x + 5 + client.textRenderer.getWidth(label);
-            int maxStarX = x + width - client.textRenderer.getWidth(" *") - 2;
+            int starX = x + 5 + client.font.width(label);
+            int maxStarX = x + width - client.font.width(" *") - 2;
             if (starX <= maxStarX) {
-                context.drawText(client.textRenderer, " *", starX, y + 3, 0xFFFFD75A, true);
+                context.text(client.font, " *", starX, y + 3, 0xFFFFD75A, true);
             }
         }
     }

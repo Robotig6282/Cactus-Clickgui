@@ -1,7 +1,7 @@
 package xyz.robotig.cactusclickgui.mixin.cactus;
 
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.Screen;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import xyz.robotig.cactusclickgui.module.impl.ClickGuiModule;
 import xyz.robotig.cactusclickgui.ui.ClickGuiScreen;
 
-@Mixin(MinecraftClient.class)
+@Mixin(Minecraft.class)
 public abstract class MinecraftClientScreenMixin {
     @Unique
     private static final String CACTUS_CLICKGUI_MODULE_LIST_SCREEN = "com.dwarslooper.cactus.client.gui.screen.impl.ModuleListScreen";
@@ -32,7 +32,7 @@ public abstract class MinecraftClientScreenMixin {
 
         cactusClickgui$replacingCactusScreen = true;
         try {
-            ((MinecraftClient) (Object) this).setScreen(new ClickGuiScreen());
+            ((Minecraft) (Object) this).setScreen(new ClickGuiScreen());
         } finally {
             cactusClickgui$replacingCactusScreen = false;
         }

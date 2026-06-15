@@ -10,6 +10,10 @@ base {
     archivesName = project.archives_base_name
 }
 
+loom {
+    noIntermediateMappings()
+}
+
 
 fabricApi {
     configureDataGeneration {
@@ -28,23 +32,26 @@ repositories {
 dependencies {
     // To change the versions see the gradle.properties file
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
-    mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+    mappings "net.fabricmc:intermediary:0.0.0:v2"
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
-    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-    modCompileOnly files("cactus-0.12.2-testing(2).jar")
+    runtimeOnly "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+    modCompileOnly files("cactus-${project.cactus_version}.jar")
+    runtimeOnly files("cactus-${project.cactus_version}.jar")
 }
 
 processResources {
     inputs.property "version", project.version
     inputs.property "minecraft_version", project.minecraft_version
     inputs.property "loader_version", project.loader_version
+    inputs.property "cactus_version", project.cactus_version
     filteringCharset "UTF-8"
 
     filesMatching("fabric.mod.json") {
         expand "version": project.version,
                 "minecraft_version": project.minecraft_version,
-                "loader_version": project.loader_version
+                "loader_version": project.loader_version,
+                "cactus_version": project.cactus_version
     }
 }
 
@@ -69,6 +76,10 @@ java {
     // if it is present.
     // If you remove this line, sources will not be generated.
     withSourcesJar()
+}
+
+tasks.named("remapSourcesJar").configure {
+    enabled = false
 }
 
 jar {

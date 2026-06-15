@@ -3,7 +3,7 @@ package xyz.robotig.cactusclickgui;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -14,7 +14,7 @@ public class Config {
     private static JsonObject clickGuiData = new JsonObject();
 
     public static void init() {
-        Path dir = MinecraftClient.getInstance().runDirectory.toPath().resolve("cactus-clickgui");
+        Path dir = Minecraft.getInstance().gameDirectory.toPath().resolve("cactus-clickgui");
         clickGuiPath = dir.resolve("clickgui.json");
         loadClickGui();
     }

@@ -2,8 +2,8 @@ package xyz.robotig.cactusclickgui.ui.components;
 
 import com.dwarslooper.cactus.client.feature.module.Category;
 import com.dwarslooper.cactus.client.feature.module.Module;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import xyz.robotig.cactusclickgui.Config;
 import xyz.robotig.cactusclickgui.module.impl.ClickGuiModule;
 import xyz.robotig.cactusclickgui.ui.UiNameUtil;
@@ -37,16 +37,16 @@ public class Window {
         clampToScreen();
     }
 
-    public void render(DrawContext context, int mouseX, int mouseY) {
-        MinecraftClient client = MinecraftClient.getInstance();
+    public void render(GuiGraphicsExtractor context, int mouseX, int mouseY) {
+        Minecraft client = Minecraft.getInstance();
         width = calculateWidth();
         clampToScreen();
         int height = getHeight();
 
         context.fill(x, y, x + width, y + 15, 0xCC303030);
         String indicator = collapsed ? "[+]" : "[-]";
-        context.drawText(client.textRenderer, indicator, x + width - client.textRenderer.getWidth(indicator) - 4, y + 3, 0xFF888888, true);
-        context.drawText(client.textRenderer, categoryName(), x + 4, y + 3, 0xFFFFFFFF, true);
+        context.text(client.font, indicator, x + width - client.font.width(indicator) - 4, y + 3, 0xFF888888, true);
+        context.text(client.font, categoryName(), x + 4, y + 3, 0xFFFFFFFF, true);
 
         if (collapsed) return;
 
@@ -126,19 +126,19 @@ public class Window {
     }
 
     private int calculateWidth() {
-        MinecraftClient client = MinecraftClient.getInstance();
-        if (client == null || client.textRenderer == null) {
+        Minecraft client = Minecraft.getInstance();
+        if (client == null || client.font == null) {
             return MIN_WIDTH;
         }
 
-        int maxTextWidth = client.textRenderer.getWidth(categoryName());
+        int maxTextWidth = client.font.width(categoryName());
         for (Module module : modules) {
             String moduleName = UiNameUtil.moduleName(module.getDisplayName());
-            maxTextWidth = Math.max(maxTextWidth, client.textRenderer.getWidth(moduleName));
+            maxTextWidth = Math.max(maxTextWidth, client.font.width(moduleName));
         }
 
         int computed = Math.max(MIN_WIDTH, maxTextWidth + 10);
-        int screenWidth = client.getWindow().getScaledWidth();
+        int screenWidth = client.getWindow().getGuiScaledWidth();
         if (screenWidth > 0) {
             computed = Math.min(computed, Math.max(MIN_WIDTH, screenWidth - 4));
         }
@@ -146,12 +146,12 @@ public class Window {
     }
 
     private void clampToScreen() {
-        MinecraftClient client = MinecraftClient.getInstance();
+        Minecraft client = Minecraft.getInstance();
         if (client == null) {
             return;
         }
-        int screenWidth = client.getWindow().getScaledWidth();
-        int screenHeight = client.getWindow().getScaledHeight();
+        int screenWidth = client.getWindow().getGuiScaledWidth();
+        int screenHeight = client.getWindow().getGuiScaledHeight();
         int maxX = Math.max(0, screenWidth - width);
         int maxY = Math.max(0, screenHeight - getHeight());
         x = Math.max(0, Math.min(x, maxX));

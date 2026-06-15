@@ -22,7 +22,7 @@
   "depends": {
     "fabricloader": ">=${loader_version}",
     "fabric-api": "*",
-    "cactus": "*",
-    "minecraft": "${minecraft_version}"
+    "cactus": ">=${cactus_version}",
+    "minecraft": "~26.1"
   }
 }
