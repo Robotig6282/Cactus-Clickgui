@@ -23,3 +23,6 @@ When the `Clickgui` module is enabled, opening the Cactus module list uses the c
 - Fabric API
 - Cactus 0.13+
 
+## License
+
+Cactus-Clickgui is licensed under the GNU General Public License v3.0 only. See [LICENSE](LICENSE).

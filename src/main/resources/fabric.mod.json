@@ -6,7 +6,7 @@
   "description": "A Cactus module that switches the module list to a custom ClickGUI theme.",
   "authors": [],
   "contact": {},
-  "license": "All-Rights-Reserved",
+  "license": "GPL-3.0-only",
   "environment": "client",
   "entrypoints": {
     "cactus": [
