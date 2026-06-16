@@ -4,7 +4,7 @@
   "version": "${version}",
   "name": "Cactus-Clickgui",
   "description": "A Cactus module that switches the module list to a custom ClickGUI theme.",
-  "authors": [],
+  "authors": ["Robotig6282"],
   "contact": {},
   "license": "GPL-3.0-only",
   "environment": "client",
