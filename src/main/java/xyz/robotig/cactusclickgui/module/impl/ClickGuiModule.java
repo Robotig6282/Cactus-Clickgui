@@ -23,7 +23,6 @@ public class ClickGuiModule extends Module {
 
     public ClickGuiModule() {
         super(ID, ModuleManager.CATEGORY_UTILITY, new Options().set(Flag.HUD_LISTED, false).set(Flag.RUN_IN_MENU, true));
-        setBind(KeyBind.of(GLFW.GLFW_KEY_RIGHT_SHIFT));
         accentColor = new ColorSetting("accentColor", new ColorValue(new Color(DEFAULT_ACCENT_COLOR, true), false), false);
         mainGroup.add(accentColor);
     }
